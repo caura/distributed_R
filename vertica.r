@@ -1,13 +1,16 @@
 # library(distributedR)
 library(HPdata)
+source('/home/looker/cat2num.R'
+#distributedR_start(cluster_conf='cluster_conf.xml')
 distributedR_start()
-historical_data <- db2darrays(tableName='training',dsn='Vertica', 
+cat2num(srcTable='training', dsn='Vertica', dstTable='training_modified',view=TRUE)
+historical_data <- db2darrays(tableName='training_modified',dsn='Vertica', 
       # Y - matrix
       list('"loans.is_bad"'),
       # X - matrix
       list('"loans.issue_year"','"loans.is_rent"',
       '"borrower.revol_utilization"','"borrower.fico_range_high"',
-      '"borrower.fico_range_low"','"borrower.inquiries_last_6mths"',
+      '"borrower.inquiries_last_6mths"',
       '"borrower.pub_rec_bankruptcies"'))
 
 library(HPdregression)
